@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8)),
-                          labelText: "Username atau Password"),
+                          labelText: "Email atau Username"),
                     ),
                   ),
                   Container(
@@ -64,17 +64,24 @@ class _LoginState extends State<Login> {
                       children: <Widget>[
                         FlatButton(
                           child: Text("Forgot Password ?"),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/forgot_password');
+                          },
                         ),
                       ],
                     ),
                   ),
-                  RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
-                    child: Text("Login"),
-                    shape: StadiumBorder(),
-                    onPressed: () {},
+                  SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      textColor: Colors.white,
+                      child: Text("Login"),
+                      shape: StadiumBorder(),
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, '/home');
+                      },
+                    ),
                   ),
                 ],
               ),
