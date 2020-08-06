@@ -1,20 +1,16 @@
-import 'package:expense/model/single_response.dart';
-import 'package:expense/model/token.dart';
-import 'package:expense/service/login_service.dart';
+import 'package:expense/bloc/login_bloc.dart';
+import 'package:expense/bloc/login_event.dart';
+import 'package:expense/bloc/login_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class Login extends StatefulWidget {
-  @override
-  _LoginState createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  bool passwordVisible = false;
-  bool isLoading = false;
-  SingleResponse<Token> response;
-
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool passwordVisible = false;
+    bool isLoading = false;
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return Scaffold(
       body: Builder(
         builder: (context) => Container(
@@ -34,6 +30,7 @@ class _LoginState extends State<Login> {
                     ),
                     Container(
                       child: TextField(
+                        controller: emailController,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8)),
@@ -43,6 +40,7 @@ class _LoginState extends State<Login> {
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 16, 0, 8),
                       child: TextField(
+                        controller: passwordController,
                         obscureText: !passwordVisible,
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -56,9 +54,9 @@ class _LoginState extends State<Login> {
                                 color: Theme.of(context).primaryColorDark,
                               ),
                               onPressed: () {
-                                setState(() {
-                                  passwordVisible = !passwordVisible;
-                                });
+                                // setState(() {
+                                //   passwordVisible = !passwordVisible;
+                                // });
                               },
                             )),
                       ),
@@ -84,31 +82,26 @@ class _LoginState extends State<Login> {
                         child: Text("Login"),
                         shape: StadiumBorder(),
                         onPressed: () {
-                          final snackbar = SnackBar(
-                              content: Row(
-                                children: <Widget>[
-                                  CircularProgressIndicator(),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 16),
-                                    child: Text("Loading..."),
-                                  )
-                                ],
-                              ),
-                              duration: Duration(days: 365));
-                          Scaffold.of(context).showSnackBar(snackbar);
-                          LoginService.login("ahmad", "ahmad").then((value) {
-                            setState(() {
-                              response = value;
-                            });
-                            Scaffold.of(context).hideCurrentSnackBar();
-                          });
+                          BlocProvider.of<LoginBlock>(context).add(FetchLogin(
+                              email: emailController.text,
+                              password: passwordController.text));
                         },
                       ),
                     ),
-                    Container(
-                      child: Text(
-                          (response != null) ? response.data.token : "Kosong"),
-                    )
+                    Container(child: BlocBuilder<LoginBlock, LoginState>(
+                        builder: (context, state) {
+                      if (state is LoginEmpty) {
+                        return Text("Belum Login");
+                      } else if (state is LoginError) {
+                        return Text((state).message);
+                      } else if (state is LoginSuccess) {
+                        return Text((state).token.token);
+                      } else if (state is LoginLoading) {
+                        return CircularProgressIndicator();
+                      } else {
+                        return Text("Tidak Login");
+                      }
+                    }))
                   ],
                 ),
         ),

@@ -1,14 +1,19 @@
-class Token {
-  String type;
-  String token;
-  int expiredIn;
+import 'package:equatable/equatable.dart';
 
-  Token({this.type, this.token, this.expiredIn});
+class Token extends Equatable {
+  final String type;
+  final String token;
+  final int expiredIn;
 
-  factory Token.make(Map<String, dynamic> object) {
+  const Token({this.type, this.token, this.expiredIn});
+
+  factory Token.fromJson(Map<String, dynamic> json) {
     return Token(
-        type: object['type'],
-        token: object['token'],
-        expiredIn: object['expired_in']);
+        type: json['type'],
+        token: json['token'],
+        expiredIn: json['expired_in']);
   }
+
+  @override
+  List<Object> get props => [type, token, expiredIn];
 }

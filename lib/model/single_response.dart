@@ -1,14 +1,17 @@
-class SingleResponse<T> {
-  bool status;
-  String message;
-  T data;
+import 'package:equatable/equatable.dart';
 
-  SingleResponse({this.status, this.message, this.data});
+class SingleResponse<T> extends Equatable {
+  final bool success;
+  final String message;
+  final T data;
 
-  factory SingleResponse.make(Map<String, dynamic> object) {
+  const SingleResponse({this.success, this.message, this.data});
+
+  factory SingleResponse.fromJson(Map<String, dynamic> json) {
     return SingleResponse(
-        status: object['status'],
-        message: object['message'],
-        data: object['data']);
+        success: json['success'], message: json['message'], data: json['data']);
   }
+
+  @override
+  List<Object> get props => [success, message, data];
 }
