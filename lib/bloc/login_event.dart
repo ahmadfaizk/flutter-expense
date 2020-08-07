@@ -1,14 +1,11 @@
-import 'package:equatable/equatable.dart';
+import 'package:expense/bloc/base_event.dart';
 
-abstract class LoginEvent extends Equatable {
-  const LoginEvent();
-}
-
-class FetchLogin extends LoginEvent {
+class LoginEvent extends BaseEvent {
   final String email;
   final String password;
 
-  const FetchLogin({this.email, this.password});
+  const LoginEvent({this.email, this.password});
+
   @override
   List<Object> get props => [email, password];
 }

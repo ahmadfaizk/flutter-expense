@@ -1,29 +1,30 @@
 import 'package:bloc/bloc.dart';
-import 'package:expense/bloc/login_event.dart';
-import 'package:expense/bloc/login_state.dart';
-import 'package:expense/data/expense_repository.dart';
+import 'package:expense/bloc/bloc.dart';
 import 'package:expense/model/models.dart';
+import 'package:expense/repository/repositories.dart';
 
-class LoginBlock extends Bloc<LoginEvent, LoginState> {
+class LoginBlock extends Bloc<BaseEvent, BaseState> {
   ExpenseRepository repository;
 
-  LoginBlock({this.repository}) : super(null);
+  LoginBlock({this.repository}) : super(EmptyState());
 
   @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is FetchLogin) {
-      yield LoginLoading();
-    }
-    try {
-      final SingleResponse<Token> response = await repository.login(
-          (event as FetchLogin).email, (event as FetchLogin).password);
-      if (response.success) {
-        yield LoginSuccess(token: response.data);
-      } else {
-        yield LoginError(message: response.message);
+  Stream<BaseState> mapEventToState(BaseEvent event) async* {
+    if (event is LoginEvent) {
+      yield LoadingState();
+      try {
+        final SingleResponse<Token> response =
+            await repository.login(event.email, event.password);
+        if (response.success) {
+          yield SuccessState<Token>(data: response.data);
+        } else {
+          yield ErrorState(message: response.message);
+        }
+      } catch (_) {
+        yield ErrorState(message: "No Connection");
       }
-    } catch (_) {
-      yield LoginError(message: "No Connection");
+    } else {
+      yield ErrorState(message: "Event Not Match");
     }
   }
 }

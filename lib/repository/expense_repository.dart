@@ -1,7 +1,5 @@
-import 'package:expense/data/expense_data_source.dart';
-import 'package:expense/data/remote/remote_data_source.dart';
-import 'package:expense/model/token.dart';
-import 'package:expense/model/single_response.dart';
+import 'package:expense/model/models.dart';
+import 'package:expense/repository/repositories.dart';
 
 class ExpenseRepository implements ExpenseDataSource {
   RemoteDataSource remoteDataSource;

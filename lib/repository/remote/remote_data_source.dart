@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:expense/model/single_response.dart';
-import 'package:expense/model/token.dart';
+import 'package:expense/model/models.dart';
 import 'package:http/http.dart' as http;
 
 class RemoteDataSource {
