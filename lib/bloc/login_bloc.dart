@@ -3,10 +3,10 @@ import 'package:expense/bloc/bloc.dart';
 import 'package:expense/model/models.dart';
 import 'package:expense/repository/repositories.dart';
 
-class LoginBlock extends Bloc<BaseEvent, BaseState> {
+class LoginBloc extends Bloc<BaseEvent, BaseState> {
   ExpenseRepository repository;
 
-  LoginBlock({this.repository}) : super(EmptyState());
+  LoginBloc({this.repository}) : super(EmptyState());
 
   @override
   Stream<BaseState> mapEventToState(BaseEvent event) async* {

@@ -15,11 +15,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LoginBlock>(
-          create: (context) => LoginBlock(repository: repository),
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(repository: repository),
         ),
         BlocProvider<PasswordBloc>(
           create: (context) => PasswordBloc(),
+        ),
+        BlocProvider<ForgotPasswordBloc>(
+          create: (context) => ForgotPasswordBloc(repository: repository),
         )
       ],
       child: MaterialApp(

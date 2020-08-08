@@ -1,4 +1,4 @@
-import 'package:expense/bloc/base_event.dart';
+import 'package:expense/bloc/event/base_event.dart';
 
 class LoginEvent extends BaseEvent {
   final String email;

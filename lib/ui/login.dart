@@ -82,7 +82,7 @@ class Login extends StatelessWidget {
                         child: Text("Login"),
                         shape: StadiumBorder(),
                         onPressed: () {
-                          BlocProvider.of<LoginBlock>(context).add(LoginEvent(
+                          BlocProvider.of<LoginBloc>(context).add(LoginEvent(
                               email: emailController.text,
                               password: passwordController.text));
                         },
@@ -90,7 +90,7 @@ class Login extends StatelessWidget {
                     ),
                     Container(
                         margin: EdgeInsets.only(top: 24),
-                        child: BlocBuilder<LoginBlock, BaseState>(
+                        child: BlocBuilder<LoginBloc, BaseState>(
                             builder: (context, state) {
                           if (state is EmptyState) {
                             return Text("Belum Login");
