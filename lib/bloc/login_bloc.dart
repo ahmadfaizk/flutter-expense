@@ -23,6 +23,8 @@ class LoginBlock extends Bloc<BaseEvent, BaseState> {
       } catch (_) {
         yield ErrorState(message: "No Connection");
       }
+    } else if (event is LogoutEvent) {
+      yield EmptyState();
     } else {
       yield ErrorState(message: "Event Not Match");
     }

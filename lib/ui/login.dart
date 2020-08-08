@@ -2,6 +2,7 @@ import 'package:expense/bloc/bloc.dart';
 import 'package:expense/model/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -37,26 +38,24 @@ class Login extends StatelessWidget {
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 16, 0, 8),
-                      child: BlocBuilder<PasswordBloc, BaseState>(
+                      child: BlocBuilder<PasswordBloc, bool>(
                         builder: (context, state) => TextField(
                           controller: passwordController,
-                          obscureText: ((state as SuccessState).data),
+                          obscureText: state,
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8)),
                               labelText: "Password",
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  ((state as SuccessState).data)
+                                  state
                                       ? Icons.visibility_off
                                       : Icons.visibility,
                                   color: Theme.of(context).primaryColorDark,
                                 ),
                                 onPressed: () {
-                                  BlocProvider.of<PasswordBloc>(context).add(
-                                      PasswordEvent(
-                                          visibility:
-                                              !(state as SuccessState).data));
+                                  BlocProvider.of<PasswordBloc>(context)
+                                      .add(!state);
                                 },
                               )),
                         ),
@@ -89,24 +88,35 @@ class Login extends StatelessWidget {
                         },
                       ),
                     ),
-                    Container(child: BlocBuilder<LoginBlock, BaseState>(
-                        builder: (context, state) {
-                      if (state is EmptyState) {
-                        return Text("Belum Login");
-                      } else if (state is ErrorState) {
-                        return Text((state).message);
-                      } else if (state is SuccessState<Token>) {
-                        return Text((state).data.token);
-                      } else if (state is LoadingState) {
-                        return CircularProgressIndicator();
-                      } else {
-                        return Text("Tidak Login");
-                      }
-                    }))
+                    Container(
+                        margin: EdgeInsets.only(top: 24),
+                        child: BlocBuilder<LoginBlock, BaseState>(
+                            builder: (context, state) {
+                          if (state is EmptyState) {
+                            return Text("Belum Login");
+                          } else if (state is ErrorState) {
+                            return Text((state).message);
+                          } else if (state is SuccessState<Token>) {
+                            print("Success state");
+                            _saveToken(state.data.token).then((value) =>
+                                Navigator.pushReplacementNamed(
+                                    context, '/home'));
+                            return Container();
+                          } else if (state is LoadingState) {
+                            return CircularProgressIndicator();
+                          } else {
+                            return Text("Tidak Login");
+                          }
+                        }))
                   ],
                 ),
         ),
       ),
     );
+  }
+
+  _saveToken(String token) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("token", token);
   }
 }

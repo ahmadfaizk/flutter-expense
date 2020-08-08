@@ -1,4 +1,5 @@
 export './main.dart';
+export './splash_screen.dart';
 export './login.dart';
 export './fogot_password.dart';
 export './verify_otp.dart';

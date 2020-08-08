@@ -23,8 +23,9 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        home: Login(),
+        initialRoute: '/',
         routes: {
+          '/': (context) => SplashScreen(),
           '/login': (context) => Login(),
           '/forgot_password': (context) => ForgotPassword(),
           '/verify_otp': (context) => VerifyOtp(),

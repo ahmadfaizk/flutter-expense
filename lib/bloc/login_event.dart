@@ -9,3 +9,10 @@ class LoginEvent extends BaseEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class LogoutEvent extends BaseEvent {
+  const LogoutEvent();
+
+  @override
+  List<Object> get props => [];
+}
