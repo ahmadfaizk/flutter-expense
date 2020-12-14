@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class ResetPassword extends StatefulWidget {
   @override
@@ -53,8 +54,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 textColor: Colors.white,
                 child: Text("Reset"),
                 onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, '/home', (route) => false);
+                  Get.offAllNamed('/login');
                 },
               ),
             )

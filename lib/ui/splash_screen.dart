@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Timer(Duration(seconds: 4), () {
-      _getToken().then((value) => (value == null)
-          ? Navigator.pushReplacementNamed(context, '/login')
-          : Navigator.pushReplacementNamed(context, '/home'));
+    Timer(Duration(seconds: 3), () {
+      _getToken().then((value) =>
+          (value == null) ? Get.offNamed('/login') : Get.offNamed('/home'));
     });
     return Scaffold(
       body: Center(

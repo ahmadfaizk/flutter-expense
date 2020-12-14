@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyOtp extends StatefulWidget {
@@ -58,7 +59,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 errorAnimationController: errorController,
                 onChanged: (value) {},
                 onCompleted: (value) {
-                  Navigator.pushReplacementNamed(context, '/reset_password');
+                  Get.offNamed('/reset-password');
                 },
               ),
             )
