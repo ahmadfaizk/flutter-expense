@@ -3,7 +3,7 @@ import 'package:expense/model/models.dart';
 import 'package:http/http.dart' as http;
 
 class RemoteDataSource {
-  final String _baseUrl = "http://192.168.100.35:8000/api/v1";
+  final String _baseUrl = "http://128.199.208.102//api/v1";
   final http.Client httpClient;
 
   RemoteDataSource({this.httpClient});
